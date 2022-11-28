@@ -1,0 +1,9 @@
+
+## removing IDE's
+.idea
+
+# node_modules
+node_modules
+
+## Ignore vs code things
+.vscode
