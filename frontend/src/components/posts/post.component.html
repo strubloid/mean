@@ -1,1 +1,8 @@
-<h1>Our Post Component</h1>
+
+<textarea name="" id="" rows="6" [value]="postData" #postInput></textarea>
+<hr />
+<button (click)="onAddPost(postInput)"> Save Post </button>
+<p>&nbsp;</p>
+
+<h2>New post data</h2>
+<p>{{ postData }}</p>
