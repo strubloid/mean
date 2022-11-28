@@ -23,7 +23,7 @@ export class PostService {
      */
     getPosts = () => {
 
-        this.http.get<MessagePost>('http://localhost:3000/api/post')
+        this.http.get<MessagePost>('http://localhost:3000/api/posts')
             .subscribe((postData) => {
                 this.posts = postData.posts;
                 this.postsUpdated.next([...this.posts]);

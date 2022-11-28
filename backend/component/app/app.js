@@ -1,6 +1,27 @@
-const express = require('express')
+const express = require('express');
 
-const app = express()
+const app = express();
+
+app.use((req,res, next) => {
+
+  // setting to any kind of domain
+  res.setHeader('Access-Control-Allow-Origin', "*");
+
+  // allowing some headers
+  res.setHeader(
+    'Access-Control-Allow-Header',
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
+  // alowing the main type of requests
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
+
+  // continues to the other requests
+  next();
+});
 
 app.use('/api/posts', (req, res, next) => {
 
