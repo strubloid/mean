@@ -11,6 +11,7 @@ import { AppComponent } from './app.component'
 import { HeaderComponent } from 'src/components/header/header.component'
 import { PostComponent } from 'src/components/posts/post.component'
 import { PostListComponent } from 'src/components/posts/list/post.list.component'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { PostListComponent } from 'src/components/posts/list/post.list.component
         MatButtonModule,
         MatInputModule,
         MatToolbarModule,
-        MatExpansionModule
+        MatExpansionModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]
