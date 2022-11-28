@@ -1,6 +1,7 @@
 <header-component></header-component>
 
 <main>
-    <post-component></post-component>
-    <post-list-component></post-list-component>
+    <post-component (eventCreatePost)="onPostAdded($event)">
+    </post-component>
+    <post-list-component [posts]="storedPosts"></post-list-component>
 </main>

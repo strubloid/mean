@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Post } from 'src/components/posts/post.model'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'frontend';
+
+    // stored saved posts
+    public storedPosts : Post[] = [];
+
+    /**
+     * This will be the function to add a post.
+     * @param posts
+     */
+    public onPostAdded(posts : Post){
+        this.storedPosts.push(posts)
+    }
 }

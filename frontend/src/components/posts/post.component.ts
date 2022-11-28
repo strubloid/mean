@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { Component, EventEmitter, Output } from '@angular/core'
+import { Post } from 'src/components/posts/post.model'
 
 @Component({
     selector: 'post-component',
@@ -9,16 +10,29 @@ import { Component } from '@angular/core'
 export class PostComponent {
 
     // first entered data
-    public enteredValue = ''
+    public enteredContent = ''
+    public enteredTitle = ''
 
-    // value that we want to push if enteredValue is valid.
-    public postData = 'No Content'
+    // This will trigger the action of create post
+    @Output() public eventCreatePost = new EventEmitter<Post>();
 
+    cleanData = () => {
+        this.enteredTitle = '';
+        this.enteredContent = ''
+    }
 
     // This is the main action of a post
     onAddPost = () => {
 
-        this.postData = this.enteredValue;
+        const post : Post = {
+            title : this.enteredTitle, content: this.enteredContent
+        };
+
+        // after we get the post, we must emit with the data in it
+        this.eventCreatePost.emit(post);
+
+        // this will clean the form afterwards
+        this.cleanData();
 
     }
 }
