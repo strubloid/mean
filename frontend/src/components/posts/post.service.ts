@@ -9,6 +9,11 @@ interface MessagePost {
     posts : Post[];
 }
 
+interface PostAdded {
+    message: string,
+    lastAddedPostID: string
+}
+
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +25,22 @@ export class PostService {
     private postsUpdated = new Subject<Post[]>();
 
     constructor ( private http : HttpClient) {}
+
+    /**
+     * This will fetch a post.
+     *
+     * @param id
+     */
+    getPost = (id : string) => {
+        // loading the post
+        // const postToReturn = this.posts.find( post => post.id === id);
+        // return {...postToReturn};
+        return this.http.get<{ _id : string; title : string; content : string  }>(
+            `http://localhost:3000/api/posts/${id}`
+        );
+
+    }
+
     /**
      * This will return all posts.
      */
@@ -58,6 +79,30 @@ export class PostService {
     }
 
     /**
+     * This is the action for update a post.
+     *
+     * @param id
+     * @param title
+     * @param content
+     */
+    updatePost = (id : string, title : string, content : string) => {
+
+        // creating a new post object
+        const post = {
+            id : id, title : title, content : content
+        }
+
+        this.http.put(`http://localhost:3000/api/posts/${id}`, post)
+            .subscribe((response) => {
+                const updatedPosts = [...this.posts];
+                const oldPostIndex = updatedPosts.findIndex( up => up.id == post.id);
+                updatedPosts[oldPostIndex] = post;
+                this.posts = updatedPosts;
+                this.postsUpdated.next([...this.posts]);
+            });
+    }
+
+    /**
      * Listener of posts when is updated.
      */
     getPostsUpdateListener(){
@@ -81,7 +126,7 @@ export class PostService {
 
         const post : Post = { id : null , title: title, content: content };
 
-        this.http.post<{ message: string, lastAddedPostID: string}>('http://localhost:3000/api/posts', post)
+        this.http.post<PostAdded>('http://localhost:3000/api/posts', post)
             .subscribe((responseData) => {
 
                 // update the id with the last Added Post ID

@@ -4,8 +4,9 @@ import { PostListComponent } from 'src/components/posts/list/post.list.component
 import { PostComponent } from 'src/components/posts/post.component'
 
 const routes : Routes = [
-    { path : "",        component : PostListComponent },
-    { path : "create",  component : PostComponent }
+    { path : "",                component : PostListComponent },
+    { path : "create",          component : PostComponent },
+    { path : "edit/:postId",    component : PostComponent }
 ]
 
 /**

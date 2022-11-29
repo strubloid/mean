@@ -29,12 +29,12 @@ class PostRoute {
       // allowing the main type of requests
       res.setHeader(
         'Access-Control-Allow-Methods',
-        'GET, POST, PATCH, DELETE, OPTIONS'
+        'GET, POST, PATCH, PUT, DELETE, OPTIONS'
       )
 
       // continues to the other requests
-      next()
-    })
+      next();
+    });
   }
 
   /**
@@ -52,21 +52,54 @@ class PostRoute {
       })
 
       // saving into the database
-      post.save().then( createdPost => {
-
+      post.save().then(createdPost => {
         // everything is ok, and it is added a new resource code
         res.status(201).json({
           message: 'Added Successfully',
-          lastAddedPostID : createdPost._id
+          lastAddedPostID: createdPost._id
         });
-
       });
 
-    })
+    });
+
+    // route to edit a post
+    app.put('/api/posts/:id', (req, res, next) => {
+
+      // let updateId : String = req.body.id;
+      let updateId  = req.params.id;
+
+      // const post = req.body
+      const post = new PostModel({
+        _id: updateId,
+        title: req.body.title,
+        content: req.body.content,
+      });
+
+      const filter = { _id: req.params.id };
+
+      // saving into the database
+      PostModel.updateOne(filter, post).then(result => {
+        res.status(200).json({
+          message: 'Update Successfully',
+        });
+      });
+
+    });
+
+    // this will load a single post by the id
+    app.get('/api/posts/:id', (req, res, next) => {
+      PostModel.findById(req.params.id)
+        .then(post => {
+          if (post) {
+            res.status(200).json(post);
+          } else {
+            res.status(404).json({ message: 'Post not found! ' });
+          }
+        });
+    });
 
     // route to get the posts
     app.get('/api/posts', (req, res, next) => {
-
       // loading all results from the post model
       PostModel.find()
         .then((documents) => {
@@ -74,13 +107,12 @@ class PostRoute {
           res.status(200).json({
             message: 'success',
             posts: posts
-          })
-        })
+          });
+        });
     })
 
     // route to delete a post
     app.delete('/api/posts/:id', (req, res, next) => {
-
       const idToDelete = req.params.id
 
       // remind that on mongodb the id is _id
@@ -89,7 +121,7 @@ class PostRoute {
           console.log(result)
           res.status(200).json({
             message: `Post Deleted: ${req.params.id}`,
-          })
+          });
         });
     });
   }
