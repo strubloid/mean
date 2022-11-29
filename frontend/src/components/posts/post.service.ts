@@ -1,12 +1,14 @@
 import { Post } from 'src/components/posts/post.model'
 import { Injectable } from '@angular/core'
 import { Subject } from "rxjs"
+import { map } from "rxjs/operators"
 import { HttpClient } from '@angular/common/http'
 
 interface MessagePost {
     message : string;
     posts : Post[];
 }
+
 
 @Injectable({
     providedIn: 'root'
@@ -23,11 +25,23 @@ export class PostService {
      */
     getPosts = () => {
 
-        this.http.get<MessagePost>('http://localhost:3000/api/posts')
-            .subscribe((postData) => {
-                this.posts = postData.posts;
-                this.postsUpdated.next([...this.posts]);
-            });
+
+        //pipe allows we change the _id to id
+        this.http.get<{ message : string; posts : any }>(
+            'http://localhost:3000/api/posts'
+        ).pipe(map((postData) => {
+            return postData.posts.map( post => {
+                return {
+                    title: post.title,
+                    content: post.content,
+                    id: post._id
+                }
+            })
+        }))
+        .subscribe((formatedPosts) => {
+            this.posts = formatedPosts;
+            this.postsUpdated.next([...this.posts]);
+        });
 
     }
 

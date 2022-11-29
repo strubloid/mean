@@ -1,66 +1,36 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const PostModel = require("./models/post")
+const mongoose = require("mongoose")
+const PostRoute = require("./routes/PostRoute")
+const app = express();
 
-const app = express()
+try
+{
 
-// this will parse the body as json
-app.use(bodyParser.json())
-
-app.use((req, res, next) => {
-
-  // setting to any kind of domain
-  res.setHeader('Access-Control-Allow-Origin', '*')
-
-  // allowing some headers
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-
-  // alowing the main type of requests
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
-  )
-
-  // continues to the other requests
-  next()
-})
-
-// route to set a new post
-app.post('/api/posts', (req, res, next) => {
-
-  const post = req.body
-
-  console.log(post)
-
-  // everything is ok, and it is added a new resource code
-  res.status(201).json({
-    message: 'Added Successfully',
-    message: post
-  })
-
-})
-
-// route to get the posts
-app.get('/api/posts', (req, res, next) => {
-
-  const posts = [{
-    id: 1,
-    title: 'first post',
-    content: 'coming form the server 1',
-  }, {
-    id: 2,
-    title: 'second post',
-    content: 'coming form the server 2',
+  // connection information
+  const connection = {
+    username : 'root',
+    password : 'root',
+    dbSchema : 'node-angular',
+    server : 'node-api.lpzyuis.mongodb.net'
   }
-  ]
 
-  res.status(200).json({
-    message: 'success',
-    posts: posts
-  })
+  const connectionUrl =`mongodb+srv://${connection.username}:${connection.password}@${connection.server}/${connection.dbSchema}?retryWrites=true&w=majority`;
 
-})
+  // this is the connection of the mongoose
+  mongoose.connect(connectionUrl)
+    .then(() => { console.log('connected to mongo db') })
+    .catch(() => { console.log('Not Connected to MongoDB') });
+
+  // this will parse the body as json
+  app.use(bodyParser.json());
+
+  // starting the post routes
+  new PostRoute(app);
+
+} catch (error) {
+  console.error(error);
+}
 
 module.exports = app
