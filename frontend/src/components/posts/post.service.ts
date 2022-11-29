@@ -33,12 +33,9 @@ export class PostService {
      */
     getPost = (id : string) => {
         // loading the post
-        // const postToReturn = this.posts.find( post => post.id === id);
-        // return {...postToReturn};
         return this.http.get<{ _id : string; title : string; content : string  }>(
             `http://localhost:3000/api/posts/${id}`
         );
-
     }
 
     /**
