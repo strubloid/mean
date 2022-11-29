@@ -15,6 +15,8 @@ export class PostListComponent implements OnInit, OnDestroy {
     // creating the post subscription
     private postsSubscription = new Subscription();
 
+    public loading : boolean = false;
+
     /**
      * By adding the public will be added already as variable.
      * @param postService
@@ -29,11 +31,15 @@ export class PostListComponent implements OnInit, OnDestroy {
 
         this.postService.getPosts();
 
+        this.loading = true;
+
         // this subscribe to the post update listener
         this.postsSubscription = this.postService.getPostsUpdateListener().subscribe((posts: Post[]) => {
 
             // update the value of posts when something happens
             this.posts = posts;
+
+            this.loading = false;
         });
     }
 

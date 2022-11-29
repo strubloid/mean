@@ -13,6 +13,7 @@ import { PostComponent } from 'src/components/posts/post.component'
 import { PostListComponent } from 'src/components/posts/list/post.list.component'
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutes } from 'src/components/app/app.routes'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { AppRoutes } from 'src/components/app/app.routes'
         MatInputModule,
         MatToolbarModule,
         MatExpansionModule,
+        MatProgressSpinnerModule,
         HttpClientModule
     ],
     providers: [],

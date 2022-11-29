@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { Subject } from "rxjs"
 import { map } from "rxjs/operators"
 import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router'
 
 interface MessagePost {
     message : string;
@@ -24,7 +25,7 @@ export class PostService {
     private posts : Post[] = []
     private postsUpdated = new Subject<Post[]>();
 
-    constructor ( private http : HttpClient) {}
+    constructor ( private http : HttpClient, public router : Router) {}
 
     /**
      * This will fetch a post.
@@ -90,12 +91,13 @@ export class PostService {
         }
 
         this.http.put(`http://localhost:3000/api/posts/${id}`, post)
-            .subscribe((response) => {
+            .subscribe(async (response) => {
                 const updatedPosts = [...this.posts];
                 const oldPostIndex = updatedPosts.findIndex( up => up.id == post.id);
                 updatedPosts[oldPostIndex] = post;
                 this.posts = updatedPosts;
                 this.postsUpdated.next([...this.posts]);
+                await this.router.navigate(["/"])
             });
     }
 
@@ -124,7 +126,7 @@ export class PostService {
         const post : Post = { id : null , title: title, content: content };
 
         this.http.post<PostAdded>('http://localhost:3000/api/posts', post)
-            .subscribe((responseData) => {
+            .subscribe(async (responseData) => {
 
                 // update the id with the last Added Post ID
                 post.id = responseData.lastAddedPostID;
@@ -134,6 +136,9 @@ export class PostService {
 
                 // we tell who is subscribing this, a new copy from this.posts
                 this.postsUpdated.next([...this.posts]);
+
+                // this will change the page afterwords
+                await this.router.navigate(["/"])
             });
 
     }

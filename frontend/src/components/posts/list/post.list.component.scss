@@ -9,3 +9,19 @@ mat-card {
         text-align: center;
     }
 }
+
+mat-card {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    mat-spinner{
+        ::ng-deep circle {
+            stroke: #7484e1f5;
+        }
+    }
+}
+
