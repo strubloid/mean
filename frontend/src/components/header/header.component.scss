@@ -6,3 +6,29 @@ mat-card {
 mat-form-field, textarea {
     width: 100%;
 }
+
+.flexSpace{
+    flex : 1 1 auto;
+}
+
+ul{
+    list-style-type: none;
+    color: white;
+    padding: 0;
+    margin: 0;
+    a{
+        text-decoration:none;
+        color: white;
+        &.active{
+            color: #a0afff;
+        }
+    }
+}
+
+span {
+    a{
+        text-decoration:none;
+        color: white;
+    }
+}
+

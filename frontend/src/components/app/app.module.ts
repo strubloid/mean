@@ -12,6 +12,8 @@ import { HeaderComponent } from 'src/components/header/header.component'
 import { PostComponent } from 'src/components/posts/post.component'
 import { PostListComponent } from 'src/components/posts/list/post.list.component'
 import { HttpClientModule } from '@angular/common/http'
+import { AppRoutes } from 'src/components/app/app.routes'
+
 
 @NgModule({
     declarations: [
@@ -22,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http'
     ],
     imports: [
         BrowserModule,
+        AppRoutes,
         FormsModule,
         BrowserAnimationsModule,
         MatCardModule,
