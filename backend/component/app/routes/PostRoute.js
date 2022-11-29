@@ -26,7 +26,7 @@ class PostRoute {
         'Origin, X-Requested-With, Content-Type, Accept'
       )
 
-      // alowing the main type of requests
+      // allowing the main type of requests
       res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, PATCH, DELETE, OPTIONS'
@@ -52,13 +52,15 @@ class PostRoute {
       })
 
       // saving into the database
-      post.save()
+      post.save().then( createdPost => {
 
-      // everything is ok, and it is added a new resource code
-      res.status(201).json({
-        message: 'Added Successfully',
-        post: post
-      })
+        // everything is ok, and it is added a new resource code
+        res.status(201).json({
+          message: 'Added Successfully',
+          lastAddedPostID : createdPost._id
+        });
+
+      });
 
     })
 

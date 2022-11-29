@@ -81,10 +81,16 @@ export class PostService {
 
         const post : Post = { id : null , title: title, content: content };
 
-        this.http.post<{ message: string}>('http://localhost:3000/api/posts', post)
+        this.http.post<{ message: string, lastAddedPostID: string}>('http://localhost:3000/api/posts', post)
             .subscribe((responseData) => {
-                console.log(responseData.message);
+
+                // update the id with the last Added Post ID
+                post.id = responseData.lastAddedPostID;
+
+                // updated the new post with correct ID
                 this.posts.push(post);
+
+                // we tell who is subscribing this, a new copy from this.posts
                 this.postsUpdated.next([...this.posts]);
             });
 
