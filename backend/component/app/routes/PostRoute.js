@@ -72,9 +72,24 @@ class PostRoute {
           res.status(200).json({
             message: 'success',
             posts: posts
-          });
-        });
+          })
+        })
     })
+
+    // route to delete a post
+    app.delete('/api/posts/:id', (req, res, next) => {
+
+      const idToDelete = req.params.id
+
+      // remind that on mongodb the id is _id
+      PostModel.deleteOne({ _id: idToDelete })
+        .then((result) => {
+          console.log(result)
+          res.status(200).json({
+            message: `Post Deleted: ${req.params.id}`,
+          })
+        });
+    });
   }
 }
 
