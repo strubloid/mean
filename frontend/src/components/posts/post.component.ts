@@ -21,6 +21,7 @@ export class PostComponent implements OnInit {
      * Starting the component.
      */
     ngOnInit () {
+
         // as route are observable we can subscribe to it
         this.route.paramMap.subscribe((paramMap : ParamMap) => {
 

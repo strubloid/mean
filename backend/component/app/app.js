@@ -27,7 +27,10 @@ try
   app.use(bodyParser.json());
 
   // starting the post routes
-  new PostRoute(app);
+  let postRoute = new PostRoute();
+
+  // registering the route object, so we can get all configurations
+  app.use(postRoute.router)
 
 } catch (error) {
   console.error(error);

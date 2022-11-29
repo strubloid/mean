@@ -1,21 +1,24 @@
 const PostModel = require('../models/post')
+const express = require("express");
 
 class PostRoute {
 
-  constructor (app) {
+  constructor () {
+
+    this.router = express.Router();
 
     // this will be fixing the issue of accessing from another domain/port
-    this.configBrowser(app)
+    this.configBrowser()
 
     // this will start the routes for the post component
-    this.postRoutes(app)
+    this.allRoutes()
   }
 
   /**
    * This will be responsible to configure the browser.
    */
-  configBrowser (app) {
-    app.use((req, res, next) => {
+  configBrowser () {
+    this.router.use((req, res, next) => {
 
       // setting to any kind of domain
       res.setHeader('Access-Control-Allow-Origin', '*')
@@ -38,12 +41,14 @@ class PostRoute {
   }
 
   /**
-   * This will return all post routes
+   * This will be responsible to add a new post
+   * route.
+   *
    */
-  postRoutes (app) {
+  addNewPostRoute(){
 
     // route to set a new post
-    app.post('/api/posts', (req, res, next) => {
+    this.router.post('/api/posts', (req, res, next) => {
 
       // const post = req.body
       const post = new PostModel({
@@ -61,9 +66,16 @@ class PostRoute {
       });
 
     });
+  }
 
-    // route to edit a post
-    app.put('/api/posts/:id', (req, res, next) => {
+  /**
+   * This will be responsible to edit an existent
+   * post route.
+   *
+   */
+  editPostRoute(){
+
+    this.router.put('/api/posts/:id', (req, res, next) => {
 
       // let updateId : String = req.body.id;
       let updateId  = req.params.id;
@@ -85,9 +97,15 @@ class PostRoute {
       });
 
     });
+  }
 
-    // this will load a single post by the id
-    app.get('/api/posts/:id', (req, res, next) => {
+  /**
+   * This will be responsible get a
+   * single post data.
+   */
+  getPostRoute() {
+
+    this.router.get('/api/posts/:id', (req, res, next) => {
       PostModel.findById(req.params.id)
         .then(post => {
           if (post) {
@@ -98,8 +116,17 @@ class PostRoute {
         });
     });
 
-    // route to get the posts
-    app.get('/api/posts', (req, res, next) => {
+  }
+
+  /**
+   * This will be responsible to add a new post
+   * route.
+   *
+   */
+  getAllPostsRoute() {
+
+    this.router.get('/api/posts', (req, res, next) => {
+
       // loading all results from the post model
       PostModel.find()
         .then((documents) => {
@@ -109,10 +136,19 @@ class PostRoute {
             posts: posts
           });
         });
+
     })
 
-    // route to delete a post
-    app.delete('/api/posts/:id', (req, res, next) => {
+  }
+
+  /**
+   * This will be responsible to delete a single
+   * post route.
+   */
+  deletePostRoute() {
+
+    this.router.delete('/api/posts/:id', (req, res, next) => {
+
       const idToDelete = req.params.id
 
       // remind that on mongodb the id is _id
@@ -123,8 +159,31 @@ class PostRoute {
             message: `Post Deleted: ${req.params.id}`,
           });
         });
+
     });
   }
+
+  /**
+   * This will return get all available routes
+   */
+  allRoutes (app) {
+
+    // add new post
+    this.addNewPostRoute();
+
+    // edit post route
+    this.editPostRoute();
+
+    // get a single post route
+    this.getPostRoute();
+
+    // get all posts route
+    this.getAllPostsRoute();
+
+    // delete all posts route
+    this.deletePostRoute();
+  }
+
 }
 
 module.exports = PostRoute
