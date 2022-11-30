@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "backend": "nodemon server.js"
+        "start": "nodemon server.js",
+        "docker": "bash docker.sh"
     },
     "dependencies": {
         "body-parser": "^1.20.1",

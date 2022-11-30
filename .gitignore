@@ -1,15 +1,24 @@
-
-## removing IDE's
-.idea
-
-# node_modules
-node_modules
-
-## Ignore vs code things
-.vscode
-
 # removing angular
 .angular
 
 # intelij configuration
 *.iml
+
+# Ignoring node modules
+node_modules
+
+## all locks
+package-lock.json
+
+# environment files
+.env
+
+# IDE folders
+.vscode/
+.idea/
+.vagrant/
+
+## Build folders
+backend/build
+frontend/build
+
