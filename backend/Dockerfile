@@ -23,4 +23,3 @@ EXPOSE 3000
 
 ### starting the service
 ENTRYPOINT ["bash", "start.sh"]
-
