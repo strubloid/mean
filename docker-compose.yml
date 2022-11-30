@@ -1,0 +1,33 @@
+version : '3.8'
+services:
+#  backend:
+#    container_name: backend
+#    tty: true
+#    extra_hosts:
+#      - "api.backend.docker:127.0.0.1"
+#    volumes:
+#      - ./backend:/app/backend
+#    build:
+#      context: backend/
+#      dockerfile: Dockerfile
+#    ports:
+#      - 3000:3000
+#    networks:
+#      - evervault-network
+
+  frontend:
+    container_name: frontend
+    tty: true
+    volumes:
+      - ./frontend:/app/frontend/
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    networks:
+      - evervault-network
+
+networks:
+  evervault-network:
+    driver: bridge

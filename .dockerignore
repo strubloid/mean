@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.yml
+.docker
+
+# cache
+.cache
+
+#Ingore all markdown
+*.md
+
+#Ignore ISO images
+*.iso
+
+# Vim swap files
+*.swp
+*/*.swp
+*/*/*.swp
+*/*/*/*.swp
+
+## node modules
+/node-modules
+
+## build folders
+/build
+build/*
