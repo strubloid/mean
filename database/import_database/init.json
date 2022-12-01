@@ -1,0 +1,18 @@
+[
+    {
+        "_id": {
+            "$oid": "63877db40c252bcfdbb6e299"
+        },
+        "title": "rafa",
+        "content": "test",
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "63877db90c252bcfdbb6e29c"
+        },
+        "title": "piotr2",
+        "content": "test2",
+        "__v": 0
+    }
+]

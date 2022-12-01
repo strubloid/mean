@@ -9,18 +9,21 @@ try
 {
 
   // Localhost setup
-  const MONGO_DB_URI = process.env.MONGODB_URI || 'mongodb://mongo_db:27017';
+  const LOCALHOST = 'mongo_db';
+  const DB_PORT = process.env.DB_PORT || '27017';
   const DB_NAME = process.env.DB_NAME || 'backend_database';
-  const DB_USER = process.env.DB_USER || 'root';
-  const DB_PASSWORD = process.env.DB_PASSWORD || 'root';
+  const DB_USER = process.env.DB_USER || 'admin';
+  const DB_PASSWORD = process.env.DB_PASSWORD || 'admin';
+  const connectionURI = `mongodb://${DB_USER}:${DB_PASSWORD}@${LOCALHOST}:${DB_PORT}/${DB_NAME}`
 
-  // This is how to connect to a server outside of it
-  // const connection = { username : 'root',password : 'root', dbSchema : 'node-angular', server : 'node-api.lpzyuis.mongodb.net' };
-  // const connectionUrl =`mongodb+srv://${connection.username}:${connection.password}@${connection.server}/${connection.dbSchema}?retryWrites=true&w=majority`;
+  mongoose.connect(connectionURI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
+  );
 
-  // This is for localhost mongodb
-  const options = { user: DB_USER, pass: DB_PASSWORD, useNewUrlParser: true, useUnifiedTopology: true }
-  mongoose.connect(MONGO_DB_URI, options);
+
 
   //Get the default connection
   let db = mongoose.connection;

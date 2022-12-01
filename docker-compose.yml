@@ -48,18 +48,32 @@ services:
   mongo_db:
     tty: true
     container_name: mongo_db
-    image: mongo:latest
     restart: unless-stopped
     environment:
       - MONGO_INITDB_DATABASE=backend_database
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
+    build:
+      context: database/
+      dockerfile: Dockerfile
     volumes:
+      - ./database:/app/database
       - ./mongodatabase:/data/db
     ports:
       - 27017:27017
     networks:
       - project-network
+
+  import-database:
+    build:
+      context: database/import_database
+      dockerfile: Dockerfile
+    volumes:
+      - ./database:/app/database
+    networks:
+      - project-network
+    depends_on:
+      - mongo_db
 
 networks:
   project-network:
